@@ -1,0 +1,20 @@
+package com.github.gibbrich.tinkoffnews.data
+
+import com.github.gibbrich.tinkoffnews.TinkoffNewsApp
+import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
+
+/**
+ * Created by Артур on 09.03.2018.
+ */
+object NewsLocalSource: INewsSource
+{
+    override fun saveNews(news: List<News>)
+    {
+        Flowable.just(news)
+                .subscribeOn(Schedulers.io())
+                .subscribe { TinkoffNewsApp.instance.db.newsDao.insertAll(it) }
+    }
+
+    override fun getNews() = TinkoffNewsApp.instance.db.newsDao.getNewsHeaders()
+}

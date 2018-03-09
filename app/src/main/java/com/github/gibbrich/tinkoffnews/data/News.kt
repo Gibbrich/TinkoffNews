@@ -1,7 +1,7 @@
 package com.github.gibbrich.tinkoffnews.data
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
+import io.reactivex.Flowable
 import java.util.*
 
 /**
@@ -15,5 +15,13 @@ class News(
         val content: String?,
         val publicationDate: Date
 )
+
+@Dao
+interface NewsDao
 {
+    @Query("SELECT id, text, publicationDate FROM News ORDER BY publicationDate DESC")
+    fun getNewsHeaders(): Flowable<List<News>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(news: List<News>)
 }

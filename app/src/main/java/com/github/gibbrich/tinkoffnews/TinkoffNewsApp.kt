@@ -2,14 +2,14 @@ package com.github.gibbrich.tinkoffnews
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import com.github.gibbrich.tinkoffnews.data.AppDatabase
+import com.facebook.stetho.Stetho
 
 /**
  * Created by Dvurechenskiyi on 07.03.2018.
  */
 class TinkoffNewsApp : Application()
 {
-    private lateinit var db: AppDatabase
+    lateinit var db: AppDatabase
 
     override fun onCreate()
     {
@@ -17,6 +17,8 @@ class TinkoffNewsApp : Application()
 
         instance = this
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "TinkoffNewsDb.db3").build()
+
+        Stetho.initializeWithDefaults(this)
     }
 
     companion object
