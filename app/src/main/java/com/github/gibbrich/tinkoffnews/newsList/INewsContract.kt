@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.news
+package com.github.gibbrich.tinkoffnews.newsList
 
 import com.github.gibbrich.tinkoffnews.IBasePresenter
 import com.github.gibbrich.tinkoffnews.IBaseView

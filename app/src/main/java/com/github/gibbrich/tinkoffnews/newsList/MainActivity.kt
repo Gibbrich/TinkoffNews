@@ -1,6 +1,5 @@
-package com.github.gibbrich.tinkoffnews.news
+package com.github.gibbrich.tinkoffnews.newsList
 
-import android.app.PendingIntent.getActivity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat

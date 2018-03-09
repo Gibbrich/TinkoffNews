@@ -1,6 +1,5 @@
-package com.github.gibbrich.tinkoffnews.news
+package com.github.gibbrich.tinkoffnews.newsList
 
-import android.util.Log
 import com.github.gibbrich.tinkoffnews.data.INewsSource
 import com.github.gibbrich.tinkoffnews.data.News
 import com.github.gibbrich.tinkoffnews.data.NewsRepository

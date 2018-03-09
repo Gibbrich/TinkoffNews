@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.news
+package com.github.gibbrich.tinkoffnews.newsList
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
