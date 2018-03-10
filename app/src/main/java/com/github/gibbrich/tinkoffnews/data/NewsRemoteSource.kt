@@ -1,7 +1,10 @@
 package com.github.gibbrich.tinkoffnews.data
 
+import android.os.Build
+import android.text.Html
 import com.github.gibbrich.tinkoffnews.TinkoffNewsApp
 import com.github.gibbrich.tinkoffnews.api.APINewsListResponse
+import com.github.gibbrich.tinkoffnews.utils.fromHtml
 import io.reactivex.Flowable
 import java.util.*
 
@@ -18,8 +21,8 @@ object NewsRemoteSource : INewsSource
                 .getNewsData(id)
                 .map {
                     val newsId = it.payload.title.id
-                    val title = it.payload.title.text
-                    val content = it.payload.content
+                    val title = it.payload.title.text.fromHtml()
+                    val content = it.payload.content.fromHtml()
                     val date = Date(it.payload.title.publicationDate.milliseconds)
                     News(newsId, title, content, date)
                 }
@@ -44,7 +47,7 @@ object NewsRemoteSource : INewsSource
         return Flowable.fromIterable(response.payload)
                 .map {
                     val publicationDate = Date(it.publicationDate.milliseconds)
-                    News(it.id, it.text, null, publicationDate)
+                    News(it.id, it.text.fromHtml(), null, publicationDate)
                 }
                 .toList()
                 .toFlowable()

@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.newsList
+package com.github.gibbrich.tinkoffnews.news
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.github.gibbrich.tinkoffnews.data.News
  * Created by Артур on 09.03.2018.
  */
 class NewsAdapter(
-        news: List<News>,
+        news: List<News> = ArrayList(),
         private val onItemClickListener: (News) -> Unit
 ): RecyclerView.Adapter<NewsViewHolder>()
 {

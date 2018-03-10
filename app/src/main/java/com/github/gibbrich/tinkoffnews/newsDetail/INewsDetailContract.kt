@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.newsItem
+package com.github.gibbrich.tinkoffnews.newsDetail
 
 import com.github.gibbrich.tinkoffnews.IBasePresenter
 import com.github.gibbrich.tinkoffnews.IBaseView
@@ -15,7 +15,8 @@ interface INewsDetailContract
 
     interface View: IBaseView<Presenter>
     {
-        fun showNewsLoadError()
+        fun setNewsLoadErrorVisible(isVisible: Boolean)
+        fun setLoadingIndicatorVisible(isVisible: Boolean)
         fun showNewsLoadSuccessfully(title: String, content: String)
     }
 }

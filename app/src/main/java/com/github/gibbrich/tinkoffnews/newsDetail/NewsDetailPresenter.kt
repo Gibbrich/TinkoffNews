@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.newsItem
+package com.github.gibbrich.tinkoffnews.newsDetail
 
 import com.github.gibbrich.tinkoffnews.data.INewsSource
 import com.github.gibbrich.tinkoffnews.data.NewsRepository
@@ -20,6 +20,8 @@ class NewsDetailPresenter(
 
     override fun subscribe()
     {
+        view.setNewsLoadErrorVisible(false)
+
         loadNewsItem(newsId)
     }
 
@@ -30,6 +32,8 @@ class NewsDetailPresenter(
 
     override fun loadNewsItem(id: Int)
     {
+        view.setLoadingIndicatorVisible(true)
+
         disposables.clear()
 
         val disposable = newsSource.getNewsItem(id)
@@ -37,7 +41,8 @@ class NewsDetailPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { view.showNewsLoadSuccessfully(it.title, it.content!!) },
-                        { view.showNewsLoadError() }
+                        { view.setNewsLoadErrorVisible(true) },
+                        { view.setLoadingIndicatorVisible(false) }
                 )
         disposables.add(disposable)
     }

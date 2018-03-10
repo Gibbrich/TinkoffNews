@@ -1,24 +1,23 @@
-package com.github.gibbrich.tinkoffnews.newsList
+package com.github.gibbrich.tinkoffnews.news
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.github.gibbrich.tinkoffnews.R
 import com.github.gibbrich.tinkoffnews.data.News
-import com.github.gibbrich.tinkoffnews.newsItem.NewsDetailActivity
-import java.util.ArrayList
+import com.github.gibbrich.tinkoffnews.newsDetail.NewsDetailActivity
+import com.github.gibbrich.tinkoffnews.utils.ScrollChildSwipeRefreshLayout
 
 class MainActivity : AppCompatActivity(), INewsContract.View
 {
     private lateinit var presenter: INewsContract.Presenter
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
+    private lateinit var swipeRefreshLayout: ScrollChildSwipeRefreshLayout
+    private lateinit var emptyNewsView: View
     private lateinit var newsList: RecyclerView
     private lateinit var adapter: NewsAdapter
 
@@ -36,9 +35,7 @@ class MainActivity : AppCompatActivity(), INewsContract.View
         val layoutManager = LinearLayoutManager(this)
         newsList.layoutManager = layoutManager
 
-        val onItemClickListener: (News) -> Unit = { presenter.openNewsDetails(it) }
-
-        adapter = NewsAdapter(ArrayList(), onItemClickListener)
+        adapter = NewsAdapter { presenter.openNewsDetails(it) }
         newsList.adapter = adapter
 
         swipeRefreshLayout = findViewById(R.id.refreshLayout)
@@ -48,6 +45,9 @@ class MainActivity : AppCompatActivity(), INewsContract.View
                 ContextCompat.getColor(this, R.color.colorPrimaryDark)
         )
         swipeRefreshLayout.setOnRefreshListener { presenter.loadNews() }
+        swipeRefreshLayout.setScrollUpChild(newsList)
+
+        emptyNewsView = findViewById(R.id.emptyNews)
 
         presenter.subscribe()
     }
@@ -59,10 +59,9 @@ class MainActivity : AppCompatActivity(), INewsContract.View
         presenter.unsubscribe()
     }
 
-    override fun showEmptyNews()
+    override fun setEmptyNewsVisible(isVisible: Boolean)
     {
-        // todo implement
-        Toast.makeText(this, "Empty news stub showed", Toast.LENGTH_SHORT).show()
+        emptyNewsView.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun showNews(news: List<News>)
@@ -77,7 +76,6 @@ class MainActivity : AppCompatActivity(), INewsContract.View
 
     override fun showLoadingNewsError()
     {
-        // todo implement
         Toast.makeText(this, "Loading news error stub showed", Toast.LENGTH_SHORT).show()
     }
 

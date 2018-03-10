@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.newsList
+package com.github.gibbrich.tinkoffnews.news
 
 import com.github.gibbrich.tinkoffnews.data.INewsSource
 import com.github.gibbrich.tinkoffnews.data.News
@@ -50,11 +50,9 @@ class NewsPresenter(private val view: INewsContract.View): INewsContract.Present
 
     private fun processNews(news: List<News>)
     {
-        if (news.isEmpty())
-        {
-            view.showEmptyNews()
-        }
-        else
+        view.setEmptyNewsVisible(news.isEmpty())
+
+        if (!news.isEmpty())
         {
             view.showNews(news)
         }

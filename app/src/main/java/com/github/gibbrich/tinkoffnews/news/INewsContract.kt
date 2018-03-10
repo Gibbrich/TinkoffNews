@@ -1,4 +1,4 @@
-package com.github.gibbrich.tinkoffnews.newsList
+package com.github.gibbrich.tinkoffnews.news
 
 import com.github.gibbrich.tinkoffnews.IBasePresenter
 import com.github.gibbrich.tinkoffnews.IBaseView
@@ -17,7 +17,7 @@ interface INewsContract
 
     interface View : IBaseView<Presenter>
     {
-        fun showEmptyNews()
+        fun setEmptyNewsVisible(isVisible: Boolean)
         fun showNews(news: List<News>)
         fun setLoadingIndicator(isLoading: Boolean)
         fun showLoadingNewsError()
