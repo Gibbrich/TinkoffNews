@@ -9,6 +9,11 @@ import io.reactivex.schedulers.Schedulers
  */
 object NewsLocalSource: INewsSource
 {
+    override fun getNewsItem(id: Int): Flowable<News>
+    {
+        return TinkoffNewsApp.instance.db.newsDao.getNewsItem(id).toFlowable()
+    }
+
     override fun saveNews(news: List<News>)
     {
         Flowable.just(news)

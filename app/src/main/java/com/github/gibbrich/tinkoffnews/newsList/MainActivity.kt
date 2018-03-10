@@ -6,9 +6,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.Toast
 import com.github.gibbrich.tinkoffnews.R
 import com.github.gibbrich.tinkoffnews.data.News
+import com.github.gibbrich.tinkoffnews.newsItem.NewsDetailActivity
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), INewsContract.View
@@ -29,11 +31,14 @@ class MainActivity : AppCompatActivity(), INewsContract.View
 
         newsList = findViewById(R.id.newsList)
         newsList.setHasFixedSize(true)
+        newsList.isClickable = true
 
         val layoutManager = LinearLayoutManager(this)
         newsList.layoutManager = layoutManager
 
-        adapter = NewsAdapter(ArrayList())
+        val onItemClickListener: (News) -> Unit = { presenter.openNewsDetails(it) }
+
+        adapter = NewsAdapter(ArrayList(), onItemClickListener)
         newsList.adapter = adapter
 
         swipeRefreshLayout = findViewById(R.id.refreshLayout)
@@ -44,7 +49,14 @@ class MainActivity : AppCompatActivity(), INewsContract.View
         )
         swipeRefreshLayout.setOnRefreshListener { presenter.loadNews() }
 
-        presenter.start()
+        presenter.subscribe()
+    }
+
+    override fun onPause()
+    {
+        super.onPause()
+
+        presenter.unsubscribe()
     }
 
     override fun showEmptyNews()
@@ -67,5 +79,11 @@ class MainActivity : AppCompatActivity(), INewsContract.View
     {
         // todo implement
         Toast.makeText(this, "Loading news error stub showed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showNewsDetails(newsId: Int)
+    {
+        val intent = NewsDetailActivity.getIntent(this, newsId)
+        startActivity(intent)
     }
 }

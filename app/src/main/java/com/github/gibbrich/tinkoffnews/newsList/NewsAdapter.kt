@@ -11,7 +11,10 @@ import com.github.gibbrich.tinkoffnews.data.News
 /**
  * Created by Артур on 09.03.2018.
  */
-class NewsAdapter(news: List<News>): RecyclerView.Adapter<NewsViewHolder>()
+class NewsAdapter(
+        news: List<News>,
+        private val onItemClickListener: (News) -> Unit
+): RecyclerView.Adapter<NewsViewHolder>()
 {
     var news = news
         set(value)
@@ -22,7 +25,8 @@ class NewsAdapter(news: List<News>): RecyclerView.Adapter<NewsViewHolder>()
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int)
     {
-        holder.title.text = news[position].text
+        holder.itemView.setOnClickListener { onItemClickListener(news[position]) }
+        holder.title.text = news[position].title
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder

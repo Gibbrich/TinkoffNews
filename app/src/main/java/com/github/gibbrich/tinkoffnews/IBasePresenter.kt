@@ -5,5 +5,6 @@ package com.github.gibbrich.tinkoffnews
  */
 interface IBasePresenter
 {
-    fun start()
+    fun subscribe()
+    fun unsubscribe()
 }

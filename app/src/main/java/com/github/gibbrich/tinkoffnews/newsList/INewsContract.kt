@@ -12,6 +12,7 @@ interface INewsContract
     interface Presenter : IBasePresenter
     {
         fun loadNews()
+        fun openNewsDetails(news: News)
     }
 
     interface View : IBaseView<Presenter>
@@ -20,5 +21,6 @@ interface INewsContract
         fun showNews(news: List<News>)
         fun setLoadingIndicator(isLoading: Boolean)
         fun showLoadingNewsError()
+        fun showNewsDetails(newsId: Int)
     }
 }

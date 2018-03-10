@@ -10,6 +10,21 @@ import java.util.*
  */
 object NewsRemoteSource : INewsSource
 {
+    override fun getNewsItem(id: Int): Flowable<News>
+    {
+        return TinkoffNewsApp
+                .instance
+                .newsAPI
+                .getNewsData(id)
+                .map {
+                    val newsId = it.payload.title.id
+                    val title = it.payload.title.text
+                    val content = it.payload.content
+                    val date = Date(it.payload.title.publicationDate.milliseconds)
+                    News(newsId, title, content, date)
+                }
+    }
+
     override fun saveNews(news: List<News>)
     {
         // do nothing

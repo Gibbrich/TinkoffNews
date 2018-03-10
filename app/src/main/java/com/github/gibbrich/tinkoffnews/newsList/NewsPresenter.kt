@@ -33,9 +33,19 @@ class NewsPresenter(private val view: INewsContract.View): INewsContract.Present
         disposables.add(disposable)
     }
 
-    override fun start()
+    override fun subscribe()
     {
         loadNews()
+    }
+
+    override fun unsubscribe()
+    {
+        disposables.clear()
+    }
+
+    override fun openNewsDetails(news: News)
+    {
+        view.showNewsDetails(news.id)
     }
 
     private fun processNews(news: List<News>)
