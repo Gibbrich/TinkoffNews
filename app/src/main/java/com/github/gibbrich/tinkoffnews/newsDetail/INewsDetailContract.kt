@@ -17,6 +17,7 @@ interface INewsDetailContract
     {
         fun setNewsLoadErrorVisible(isVisible: Boolean)
         fun setLoadingIndicatorVisible(isVisible: Boolean)
-        fun showNewsLoadSuccessfully(title: String, content: String)
+        fun showNewsContent(title: String, content: String)
+        fun hideNewsContent()
     }
 }

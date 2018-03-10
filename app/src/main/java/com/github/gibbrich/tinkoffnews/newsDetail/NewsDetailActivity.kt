@@ -57,10 +57,18 @@ class NewsDetailActivity : AppCompatActivity(), INewsDetailContract.View
         setViewVisible(loadingNewsView, isVisible)
     }
 
-    override fun showNewsLoadSuccessfully(title: String, content: String)
+    override fun showNewsContent(title: String, content: String)
     {
         titleTextView.text = title
+        titleTextView.visibility = View.VISIBLE
         contentTextView.text = content
+        contentTextView.visibility = View.VISIBLE
+    }
+
+    override fun hideNewsContent()
+    {
+        titleTextView.visibility = View.GONE
+        contentTextView.visibility = View.GONE
     }
 
     private fun setViewVisible(view: View, isVisible: Boolean)

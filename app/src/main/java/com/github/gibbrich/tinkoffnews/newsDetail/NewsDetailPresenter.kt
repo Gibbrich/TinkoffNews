@@ -32,6 +32,7 @@ class NewsDetailPresenter(
 
     override fun loadNewsItem(id: Int)
     {
+        view.hideNewsContent()
         view.setLoadingIndicatorVisible(true)
 
         disposables.clear()
@@ -40,7 +41,7 @@ class NewsDetailPresenter(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { view.showNewsLoadSuccessfully(it.title, it.content!!) },
+                        { view.showNewsContent(it.title, it.content!!) },
                         { view.setNewsLoadErrorVisible(true) },
                         { view.setLoadingIndicatorVisible(false) }
                 )
