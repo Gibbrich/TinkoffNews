@@ -11,4 +11,5 @@ interface INewsSource
     fun getNewsItem(id: Int): Flowable<News>
     fun getNews(): Flowable<List<News>>
     fun saveNews(news: List<News>)
+    fun refreshNews()
 }

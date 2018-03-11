@@ -9,6 +9,12 @@ import io.reactivex.schedulers.Schedulers
  */
 object NewsLocalSource: INewsSource
 {
+    override fun refreshNews()
+    {
+        // Not required because the {@link NewsRepository} handles the logic of refreshing the
+        // tasks from all the available data sources.
+    }
+
     override fun getNewsItem(id: Int): Flowable<News>
     {
         return TinkoffNewsApp.instance.db.newsDao.getNewsItem(id).toFlowable()

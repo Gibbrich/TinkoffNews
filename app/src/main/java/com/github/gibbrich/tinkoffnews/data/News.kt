@@ -10,7 +10,7 @@ import java.util.*
  * Created by Dvurechenskiyi on 07.03.2018.
  */
 @Entity(tableName = "News")
-class News(
+data class News(
         @PrimaryKey
         val id: Int,
         val title: String,

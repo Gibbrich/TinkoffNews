@@ -10,15 +10,22 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by Артур on 09.03.2018.
  */
-class NewsPresenter(private val view: INewsContract.View): INewsContract.Presenter
+class NewsPresenter(
+        private val newsRepository: INewsSource,
+        private val view: INewsContract.View
+): INewsContract.Presenter
 {
-    // todo switch to DI
-    private val newsRepository: INewsSource = NewsRepository
+    private var isFirstLoad = true // first load after app startup
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun loadNews()
+    override fun loadNews(isForceUpdate: Boolean)
     {
         view.setLoadingIndicator(true)
+
+        if (isForceUpdate || !isFirstLoad)
+        {
+            newsRepository.refreshNews()
+        }
 
         disposables.clear()
 
@@ -31,11 +38,12 @@ class NewsPresenter(private val view: INewsContract.View): INewsContract.Present
                         { view.showLoadingNewsError() }
                 )
         disposables.add(disposable)
+        isFirstLoad = false
     }
 
     override fun subscribe()
     {
-        loadNews()
+        loadNews(false)
     }
 
     override fun unsubscribe()

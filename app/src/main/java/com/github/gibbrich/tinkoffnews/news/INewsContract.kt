@@ -11,7 +11,7 @@ interface INewsContract
 {
     interface Presenter : IBasePresenter
     {
-        fun loadNews()
+        fun loadNews(isForceUpdate: Boolean)
         fun openNewsDetails(news: News)
     }
 

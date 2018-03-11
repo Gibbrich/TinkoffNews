@@ -7,28 +7,27 @@ import io.reactivex.Maybe
 /**
  * Created by Артур on 09.03.2018.
  */
-object NewsRepository: INewsSource
+class NewsRepository private constructor(
+        private val localSource: INewsSource = NewsLocalSource,
+        private val remoteSource: INewsSource = NewsRemoteSource
+) : INewsSource
 {
-    // todo switch to DI
-    private val localSource: INewsSource = NewsLocalSource
-    private val remoteSource: INewsSource = NewsRemoteSource
-
     private val cachedNews: MutableMap<Int, News> = HashMap()
 
-    private var isFirstLoad = true // first load after app startup
-    private var isCacheDirty = true
+    private var isCacheDirty = false
 
     override fun getNews(): Flowable<List<News>>
     {
-        if (isFirstLoad)
-        {
-            isFirstLoad = false
-            return localSource.getNews().firstElement().toFlowable()
-        }
-
         if (!isCacheDirty)
         {
-            return Flowable.just(cachedNews.values.toList())
+            if (cachedNews.isEmpty())
+            {
+                return localSource.getNews().firstElement().toFlowable()
+            }
+            else
+            {
+                return Flowable.just(cachedNews.values.toList())
+            }
         }
 
         cachedNews.clear()
@@ -75,5 +74,25 @@ object NewsRepository: INewsSource
     {
         return remoteSource.getNewsItem(id)
                 .doOnNext { saveNews(listOf(it)) }
+    }
+
+    override fun refreshNews()
+    {
+        isCacheDirty = true
+    }
+
+    companion object
+    {
+        private var INSTANCE: NewsRepository? = null
+
+        fun getInstance(localSource: INewsSource, remoteSource: INewsSource): NewsRepository
+        {
+            return INSTANCE ?: NewsRepository(localSource, remoteSource).apply { INSTANCE = this }
+        }
+
+        fun destroyInstance()
+        {
+            INSTANCE = null
+        }
     }
 }

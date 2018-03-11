@@ -10,12 +10,11 @@ import io.reactivex.schedulers.Schedulers
  * Created by Артур on 10.03.2018.
  */
 class NewsDetailPresenter(
+        private val newsSource: INewsSource,
         private val view: INewsDetailContract.View,
         private val newsId: Int
 ): INewsDetailContract.Presenter
 {
-    // todo switch to DI
-    private val newsSource: INewsSource = NewsRepository
     private val disposables: CompositeDisposable = CompositeDisposable()
 
     override fun subscribe()

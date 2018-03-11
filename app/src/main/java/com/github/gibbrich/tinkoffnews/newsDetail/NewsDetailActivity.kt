@@ -8,6 +8,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.github.gibbrich.tinkoffnews.R
+import com.github.gibbrich.tinkoffnews.data.NewsLocalSource
+import com.github.gibbrich.tinkoffnews.data.NewsRemoteSource
+import com.github.gibbrich.tinkoffnews.data.NewsRepository
 
 class NewsDetailActivity : AppCompatActivity(), INewsDetailContract.View
 {
@@ -36,7 +39,8 @@ class NewsDetailActivity : AppCompatActivity(), INewsDetailContract.View
         loadingNewsView = findViewById(R.id.loadingNews)
         loadingErrorView = findViewById(R.id.loadingError)
 
-        presenter = NewsDetailPresenter(this, newsId)
+        val newsRepository = NewsRepository.getInstance(NewsLocalSource, NewsRemoteSource)
+        presenter = NewsDetailPresenter(newsRepository, this, newsId)
         presenter.subscribe()
     }
 

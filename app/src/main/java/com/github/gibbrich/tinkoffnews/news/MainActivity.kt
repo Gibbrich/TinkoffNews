@@ -9,6 +9,9 @@ import android.view.View
 import android.widget.Toast
 import com.github.gibbrich.tinkoffnews.R
 import com.github.gibbrich.tinkoffnews.data.News
+import com.github.gibbrich.tinkoffnews.data.NewsLocalSource
+import com.github.gibbrich.tinkoffnews.data.NewsRemoteSource
+import com.github.gibbrich.tinkoffnews.data.NewsRepository
 import com.github.gibbrich.tinkoffnews.newsDetail.NewsDetailActivity
 import com.github.gibbrich.tinkoffnews.utils.ScrollChildSwipeRefreshLayout
 
@@ -26,7 +29,8 @@ class MainActivity : AppCompatActivity(), INewsContract.View
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter = NewsPresenter(this)
+        val newsRepository = NewsRepository.getInstance(NewsLocalSource, NewsRemoteSource)
+        presenter = NewsPresenter(newsRepository, this)
 
         newsList = findViewById(R.id.newsList)
         newsList.setHasFixedSize(true)
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity(), INewsContract.View
                 ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorPrimaryDark)
         )
-        swipeRefreshLayout.setOnRefreshListener { presenter.loadNews() }
+        swipeRefreshLayout.setOnRefreshListener { presenter.loadNews(true) }
         swipeRefreshLayout.setScrollUpChild(newsList)
 
         emptyNewsView = findViewById(R.id.emptyNews)
