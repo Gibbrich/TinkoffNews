@@ -1,5 +1,6 @@
 package com.github.gibbrich.tinkoffnews.data
 
+import android.support.annotation.VisibleForTesting
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -12,9 +13,10 @@ class NewsRepository private constructor(
         private val remoteSource: INewsSource = NewsRemoteSource
 ) : INewsSource
 {
-    private val cachedNews: MutableMap<Int, News> = HashMap()
+    private val cachedNews: MutableMap<Int, News> = LinkedHashMap()
 
-    private var isCacheDirty = false
+    @VisibleForTesting
+    protected var isCacheDirty = false
 
     override fun getNews(): Flowable<List<News>>
     {
@@ -79,6 +81,13 @@ class NewsRepository private constructor(
     override fun refreshNews()
     {
         isCacheDirty = true
+    }
+
+    override fun deleteAllNews()
+    {
+        cachedNews.clear()
+        localSource.deleteAllNews()
+        remoteSource.deleteAllNews()
     }
 
     companion object

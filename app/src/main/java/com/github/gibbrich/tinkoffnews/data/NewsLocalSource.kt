@@ -1,6 +1,7 @@
 package com.github.gibbrich.tinkoffnews.data
 
 import com.github.gibbrich.tinkoffnews.TinkoffNewsApp
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 
@@ -9,10 +10,16 @@ import io.reactivex.schedulers.Schedulers
  */
 object NewsLocalSource: INewsSource
 {
+    override fun deleteAllNews()
+    {
+        Completable.fromAction { TinkoffNewsApp.instance.db.newsDao.deleteAllNews() }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+    }
+
     override fun refreshNews()
     {
-        // Not required because the {@link NewsRepository} handles the logic of refreshing the
-        // tasks from all the available data sources.
+        // Not required
     }
 
     override fun getNewsItem(id: Int): Flowable<News>

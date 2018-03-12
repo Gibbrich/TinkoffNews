@@ -39,10 +39,10 @@ class NewsDetailPresenter(
         val disposable = newsSource.getNewsItem(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { view.setLoadingIndicatorVisible(false) }
                 .subscribe(
                         { view.showNewsContent(it.title, it.content!!) },
-                        { view.setNewsLoadErrorVisible(true) },
-                        { view.setLoadingIndicatorVisible(false) }
+                        { view.setNewsLoadErrorVisible(true) }
                 )
         disposables.add(disposable)
     }

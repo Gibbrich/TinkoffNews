@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TinkoffNews</string>
-    <string name="no_news">You have no news</string>
-    <string name="loading">Loading…</string>
-    <string name="news_loading_error">Error occurred during download</string>
+    <string name="no_news">Нет новостей</string>
+    <string name="loading">Загрузка…</string>
+    <string name="news_loading_error">При загрузке произошла ошибка</string>
+    <string name="loading_error">При загрузке новости произошла ошибка</string>
 </resources>

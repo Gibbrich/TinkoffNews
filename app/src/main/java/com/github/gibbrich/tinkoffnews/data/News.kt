@@ -29,4 +29,7 @@ interface NewsDao
 
     @Query("SELECT id, title, content, publicationDate FROM News WHERE id = :id")
     fun getNewsItem(id: Int): Single<News>
+
+    @Query("DELETE FROM News")
+    fun deleteAllNews()
 }

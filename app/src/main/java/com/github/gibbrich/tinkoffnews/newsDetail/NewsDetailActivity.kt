@@ -82,7 +82,7 @@ class NewsDetailActivity : AppCompatActivity(), INewsDetailContract.View
 
     companion object
     {
-        private const val EXTRA_NEWS_ID = "EXTRA_NEWS_ID"
+        const val EXTRA_NEWS_ID = "EXTRA_NEWS_ID"
         private const val DEFAULT_NEWS_ID = -1
 
         fun getIntent(context: Context, newsId: Int): Intent

@@ -48,3 +48,9 @@ class APINewsItemData
     @Expose
     lateinit var typeId: String
 }
+
+enum class APIResultCodeValues(val title: String)
+{
+    OK("OK"),
+    ERROR("INTERNAL_ERROR")
+}

@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), INewsContract.View
 
     override fun showLoadingNewsError()
     {
-        Toast.makeText(this, "Loading news error stub showed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.loading_error, Toast.LENGTH_SHORT).show()
     }
 
     override fun showNewsDetails(newsId: Int)
