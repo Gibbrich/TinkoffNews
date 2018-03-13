@@ -12,6 +12,7 @@ import com.github.gibbrich.tinkoffnews.data.NewsRemoteSource;
 import com.github.gibbrich.tinkoffnews.data.NewsRepository;
 import com.github.gibbrich.tinkoffnews.news.MainActivity;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,8 +42,16 @@ public class NewsDetailActivityTest
     private static final String NEWS_CONTENT = "NEWS_CONTENT";
     private static final News STUB_NEWS = new News(0, NEWS_TITLE, NEWS_CONTENT, new Date());
 
+    private NewsRepository newsRepository;
+
     @Rule
     public ActivityTestRule<NewsDetailActivity> rule = new ActivityTestRule<>(NewsDetailActivity.class, true, false);
+
+    @After
+    public void tearDown() throws Exception
+    {
+        newsRepository.deleteAllNews();
+    }
 
     @Test
     public void displayedTitleAndContent() throws Exception
@@ -69,7 +78,7 @@ public class NewsDetailActivityTest
     private void startActivityWithStubbedNews(@Nullable News news)
     {
         NewsRepository.Companion.destroyInstance();
-        NewsRepository newsRepository = NewsRepository.Companion.getInstance(NewsLocalSource.INSTANCE, NewsRemoteSource.INSTANCE);
+        newsRepository = NewsRepository.Companion.getInstance(NewsLocalSource.INSTANCE, NewsRemoteSource.INSTANCE);
         newsRepository.deleteAllNews();
 
         int newsId;

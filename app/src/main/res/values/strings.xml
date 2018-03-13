@@ -4,4 +4,5 @@
     <string name="loading">Загрузка…</string>
     <string name="news_loading_error">При загрузке произошла ошибка</string>
     <string name="loading_error">При загрузке новости произошла ошибка</string>
+    <string name="publication_date">Дата публикации:</string>
 </resources>
